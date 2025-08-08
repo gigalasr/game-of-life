@@ -1,8 +1,8 @@
 # Conway's Game of Life 👾
 <div align="center">
-  <span style="float: left;"><a href="">‹ Previous</a></span>
-  <strong>Conway's Game of Life</strong>
-  <span style="float: right;"><a href="">Next ›</a></span>
+  <a href="prev.md">‹ Previous</a> &emsp;&emsp;&emsp;&emsp;
+  <strong>Current Page</strong> &emsp;&emsp;&emsp;&emsp;
+  <a href="next.md">Next ›</a>
 </div>
 
 
