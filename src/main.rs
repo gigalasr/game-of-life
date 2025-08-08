@@ -7,7 +7,7 @@ use rand::Rng;
 use winit::{application::ApplicationHandler, dpi::{LogicalSize}, event::{WindowEvent}, event_loop::EventLoop, window::{Window, WindowAttributes}};
 
 
-const WIDTH: u32 = 100;
+const WIDTH: u32 = 200;
 const HEIGHT: u32 = 100;
 const WINDOW_SCALE_FACTOR: u32 = 8;
 
@@ -166,6 +166,10 @@ impl ApplicationHandler for App {
                 event_loop.exit();
             },
             WindowEvent::RedrawRequested => {
+                if self.world.iteration >= 1000 {
+                    event_loop.exit();
+                }
+               
                 self.world.update();
                
                 save_image(self.pixels.as_mut().unwrap().frame(), self.world.iteration);

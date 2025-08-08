@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Game Of Life GIF](docs/conway.gif)
+![Game Of Life GIF](docs/conway.webp)
 
 </div>
 
