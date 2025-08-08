@@ -3,11 +3,12 @@
 &emsp;&emsp;
 
 <div align="center">
-  <a href="prev.md">‹ Previous</a> &emsp;&emsp;&emsp;&emsp;
+  <span>‹ Previous</span> &emsp;&emsp;&emsp;&emsp;
   <strong>Project 01</strong> &emsp;&emsp;&emsp;&emsp;
-  <a href="next.md">Next ›</a>
+  <a href="https://github.com/gigalasr/game-of-gpu">Next ›</a>
 </div>
 
+&emsp;&emsp;
 
 ## 👋 Intro
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white) ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) 
