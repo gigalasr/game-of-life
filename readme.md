@@ -1,7 +1,10 @@
 # Conway's Game of Life 👾
+
+&emsp;&emsp;
+
 <div align="center">
   <a href="prev.md">‹ Previous</a> &emsp;&emsp;&emsp;&emsp;
-  <strong>Current Page</strong> &emsp;&emsp;&emsp;&emsp;
+  <strong>Project 01</strong> &emsp;&emsp;&emsp;&emsp;
   <a href="next.md">Next ›</a>
 </div>
 
