@@ -1,4 +1,5 @@
-use conway::Config;
+use conway::config::Config;
+
 
 macro_rules! svec {
     ($($x:expr),*) => {
@@ -8,13 +9,12 @@ macro_rules! svec {
 
 #[test]
 fn parse_simple() {
-    let args = svec!["conway", "--width", "600", "--height", "800", "--save-frames", "--max-iterations", "10"];
+    let args = svec!["conway", "--width", "600", "--height", "800", "--save-frames"];
     let result = Config::build(&args).unwrap();
 
     assert_eq!(result.width, 600);
     assert_eq!(result.height, 800);
     assert_eq!(result.save_frames, true);
-    assert_eq!(result.max_iterations, Some(10));
 }
 
 #[test]
@@ -25,7 +25,6 @@ fn parse_default() {
     assert_eq!(result.width, 200);
     assert_eq!(result.height, 100);
     assert_eq!(result.save_frames, false);
-    assert_eq!(result.max_iterations, None);
 }
 
 #[test]

@@ -1,73 +1,16 @@
-use std::slice::Iter;
 use noise::{NoiseFn, Perlin};
 use rand::Rng;
 
+pub mod config;
 
-const WIDTH: u32 = 200;
-const HEIGHT: u32 = 100;
 const ALIVE: u8 = 255;
 const DEAD: u8 = 0;
-
-#[derive(Debug)]
-pub struct Config {
-    pub width: usize,
-    pub height: usize,
-    pub scale: usize,
-    pub max_iterations: Option<usize>,
-    pub save_frames: bool
-}
-
-impl Config {
-    pub fn build(args: &[String]) -> Result<Config, String> {
-        let mut config = Config {
-            width: 200,
-            height: 100,
-            scale: 4,
-            max_iterations: None,
-            save_frames: false
-        };
-
-        let mut args_iter = args.iter();
-        args_iter.next(); // skip executable name
-        while let Some(arg) = args_iter.next() {
-            match arg.as_str() {
-                "--width" => {
-                    config.width = Config::parse_next(&mut args_iter)?;
-                }
-                "--height" => {
-                    config.height = Config::parse_next(&mut args_iter)?;
-                }
-                "--max-iterations" => {
-                    config.max_iterations = Some(Config::parse_next(&mut args_iter)?);
-                }
-                "--scale" => {
-                    config.scale = Config::parse_next(&mut args_iter)?;
-                }
-                "--save-frames" => {
-                    config.save_frames = true;
-                }
-                other => {
-                    return Err(format!("unknown option {}", other));
-                }
-            }
-        }
-
-        Ok(config)
-    }
-
-    fn parse_next(args: &mut Iter<'_, String>) -> Result<usize, &'static str> {
-        args.next()
-            .ok_or_else(|| "Missing value for flag")?
-            .parse::<usize>()
-            .map_err(|_| "Could not parse value")
-    }
-}
-
 
 pub struct World {
     cells: Vec<u8>,
     cells_buffer: Vec<u8>,
-    iteration: usize
+    width: usize,
+    height: usize
 }
 
 impl World {
@@ -80,9 +23,9 @@ impl World {
         ];
 
         for (dx, dy) in directions.iter() {
-            let nx = ((x as isize + WIDTH as isize + dx) % WIDTH as isize) as usize;
-            let ny = ((y as isize + HEIGHT as isize + dy) % HEIGHT as isize) as usize;
-            if self.cells[nx + ny * WIDTH as usize] == ALIVE {
+            let nx = ((x as isize + self.width as isize + dx) % self.width as isize) as usize;
+            let ny = ((y as isize + self.height as isize + dy) % self.height as isize) as usize;
+            if self.cells[nx + ny * self.width] == ALIVE {
                 count += 1;
             }
         }
@@ -90,21 +33,17 @@ impl World {
         count
     }
 
-    fn cool(&mut self) {
-        for cell in self.cells.iter_mut() {
-            if *cell != ALIVE {
-                *cell = 0;
-            }
-        }    
+    fn to_index(&self, x: usize, y: usize) -> usize {
+        return x + y * self.width;
     }
 
-    fn to_index(&self, x: usize, y: usize) -> usize {
-        return x + y * WIDTH as usize;
+    fn cell(&self, x: usize, y: usize) -> &u8 {
+        return &self.cells[x + y * self.width];
     }
 
     pub fn update(&mut self) {
-      for y in 0..HEIGHT as usize {
-        for x in 0..WIDTH as usize {
+      for y in 0..self.height as usize {
+        for x in 0..self.width as usize {
             let idx = self.to_index(x, y);
             let alive = self.cells[idx] == ALIVE;
             let n = self.count_neighbours(x, y);
@@ -119,7 +58,6 @@ impl World {
         }
       }
 
-      self.iteration += 1;
       std::mem::swap(&mut self.cells_buffer, &mut self.cells);
     }
 
@@ -137,29 +75,27 @@ impl World {
 }
 
 
-impl Default for World {
-    fn default() -> Self {
-        let mut cells = vec![0; (WIDTH * HEIGHT) as usize];
+impl World {
+    pub fn new(width: usize, height: usize) -> Self {
+
+        let mut cells = vec![0; width * height];
         let mut rng = rand::rng();
 
         let perlin = Perlin::new(rng.random());
 
         for (i, cell) in cells.iter_mut().enumerate() {
-            let level = (perlin.get([((i % WIDTH as usize) as f64) / 25.0, ((i / WIDTH as usize) as f64) / 25.0]) + 1.0) / 2.0;
+            let level = (perlin.get([((i % width) as f64) / 25.0, ((i / width) as f64) / 25.0]) + 1.0) / 2.0;
             *cell = if level >= 0.5 { ALIVE } else { DEAD };
         }
 
-        let mut world = World {
+        println!("Width is {width}");
+        println!("Height is {height}");
+
+        World {
             cells: cells,
-            cells_buffer: vec![0; (WIDTH * HEIGHT) as usize],
-            iteration: 0
-        };
-
-        for _ in 0..10 {
-            world.update();
-            world.cool();
+            cells_buffer: vec![0; width * height],
+            width: width,
+            height: height
         }
-
-        world
     }
 }
