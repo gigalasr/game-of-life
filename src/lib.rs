@@ -65,6 +65,7 @@ impl World {
             if next {
                 self.cells_buffer[idx] = CellState::Alive;
             } else {
+                // Without the enum we could just subtract here directly :D
                 self.cells_buffer[idx] = self.cells[idx].die();
             }
         }

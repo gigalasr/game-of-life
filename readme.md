@@ -36,5 +36,21 @@ The following resources helped me to implement this project:
 - https://github.com/parasyte/pixels/issues/403
 - https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 
+## 🛠️ Usage
+There are a few flags you can set to change the size of the grid and the window:
+```
+--width <number>  - Set the width of the grid
+--height <number> - Set the height of the grid 
+--scale <number>  - Set the window scale (multiplier for width/height)
+--save-frames     - Save all frames as pngs to a folder
+``` 
+
+For exmaple, to launch the simulation on a 400x200 Grid with a window size of 800x400 simply run:
+```
+cargo run -- --width 400 --height 200 --scale 2
+```
+
 ## 🔮 Future Work 
 For my next project I plan on implementing Conway's Game of Life on the GPU using wgpu and wgsl.
+
+
