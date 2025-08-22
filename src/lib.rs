@@ -1,10 +1,12 @@
+use std::fmt::{self, write, Write};
+
 use noise::{NoiseFn, Perlin};
 use rand::Rng;
 
 pub mod config;
 
-#[derive(Clone, PartialEq)]
-enum CellState {
+#[derive(Clone, Debug)]
+pub enum CellState {
     Alive,
     Dead(u8)
 }
@@ -18,11 +20,36 @@ impl CellState {
     }
 }
 
+impl PartialEq for CellState {
+    fn eq(&self, other: &Self) -> bool {
+        core::mem::discriminant(self) == core::mem::discriminant(other)
+    }
+}
+
 pub struct World {
     cells: Vec<CellState>,
     cells_buffer: Vec<CellState>,
     width: usize,
     height: usize
+}
+
+/// For formatting unit test output 
+impl fmt::Debug for World {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_char('\n')?;
+    
+        for row in self.cells.chunks(self.width) {
+            for cell in row {
+                write!(f, "{}", match cell {
+                    CellState::Alive => "⬜",
+                    CellState::Dead(_) => "⬛"
+                })?;
+            }
+            f.write_char('\n')?;
+        }
+
+        Ok(())
+    }
 }
 
 impl World {
@@ -87,6 +114,23 @@ impl World {
 
 
 impl World {
+    pub fn from(world: &[u8], width: usize, height: usize) -> Self {
+        let cells: Vec<CellState> = world.iter()
+        .map(|x| match x {
+            1 => CellState::Alive,
+            0 => CellState::Dead(0),
+            n => panic!("Illegal Value")
+        })
+        .collect();
+
+        World {
+            cells_buffer: cells.clone(),
+            cells: cells,
+            width: width,
+            height: height
+        }
+    }
+
     pub fn new(width: usize, height: usize) -> Self {
 
         let mut cells = vec![CellState::Dead(0); width * height];
@@ -105,5 +149,15 @@ impl World {
             width: width,
             height: height
         }
+    }
+}
+
+impl PartialEq for World {
+    fn eq(&self, other: &Self) -> bool {
+        if self.width != other.width || self.height != other.height {
+            panic!("Can't copare worlds of different sizes");
+        }
+        
+        self.cells == other.cells
     }
 }
