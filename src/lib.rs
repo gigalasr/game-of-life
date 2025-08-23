@@ -1,4 +1,4 @@
-use std::fmt::{self, write, Write};
+use std::fmt::{self, Write};
 
 use noise::{NoiseFn, Perlin};
 use rand::Rng;
@@ -119,7 +119,7 @@ impl World {
         .map(|x| match x {
             1 => CellState::Alive,
             0 => CellState::Dead(0),
-            n => panic!("Illegal Value")
+            _ => panic!("Illegal Value")
         })
         .collect();
 
@@ -132,7 +132,6 @@ impl World {
     }
 
     pub fn new(width: usize, height: usize) -> Self {
-
         let mut cells = vec![CellState::Dead(0); width * height];
         let mut rng = rand::rng();
 

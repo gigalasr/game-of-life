@@ -36,6 +36,18 @@ test_step!(rule_1, // Any live cell with fewer than two live neighbours dies
      0, 0, 0, 0, 
      0, 0, 0, 0], 4);
 
+test_step!(rule_1_2_cells, 
+    // Given
+    [0, 0, 0, 0, 
+     0, 0, 1, 1,
+     0, 0, 0, 0, 
+     0, 0, 0, 0], 
+    // Expected
+    [0, 0, 0, 0, 
+     0, 0, 0, 0,
+     0, 0, 0, 0, 
+     0, 0, 0, 0], 4);
+
 test_step!(rule_2, // Any live cell with two or three live neighbours lives on 
     // Given
     [0, 0, 0, 1, 
@@ -47,6 +59,58 @@ test_step!(rule_2, // Any live cell with two or three live neighbours lives on
      0, 0, 1, 0,
      0, 0, 0, 0, 
      0, 0, 0, 0], 4);
+
+test_step!(rule_2_stable,  
+    // Given
+    [0, 0, 0, 0, 
+     0, 1, 1, 0,
+     0, 1, 1, 0, 
+     0, 0, 0, 0], 
+    // Expected
+    [0, 0, 0, 0, 
+     0, 1, 1, 0,
+     0, 1, 1, 0, 
+     0, 0, 0, 0], 4);
+
+test_step!(rule_3, // Any live cell with more than three live neighbours dies
+    // Given
+    [0, 0, 1, 0, 
+     0, 1, 1, 1,
+     0, 0, 1, 0, 
+     0, 0, 0, 0], 
+    // Expected
+    [0, 1, 1, 1, 
+     0, 1, 0, 1,
+     0, 1, 1, 1, 
+     0, 0, 0, 0], 4);
+
+test_step!(rule_4, // Any dead cell with exactly three live neighbours becomes a live cell
+    // Given
+    [0, 0, 1, 0, 
+     0, 1, 0, 1,
+     0, 0, 0, 0, 
+     0, 0, 0, 0], 
+    // Expected
+    [0, 0, 1, 0, 
+     0, 0, 1, 0,
+     0, 0, 0, 0, 
+     0, 0, 0, 0], 4);
+
+
+test_step!(shape, 
+    // Given
+    [0, 0, 1, 0, 0, 
+     0, 1, 1, 0, 0,
+     0, 0, 1, 1, 0, 
+     0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0], 
+    // Expected
+    [0, 1, 1, 0, 0, 
+     0, 1, 0, 0, 0,
+     0, 1, 1, 1, 0, 
+     0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0],  5);
+
 
 #[test]
 fn compare_cell_states() {
