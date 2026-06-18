@@ -1,16 +1,6 @@
-# Conway's Game of Life 👾
+# Conway's Game of Life 
 
-&emsp;&emsp;
-
-<div align="center">
-  <span>‹ Previous</span> &emsp;&emsp;&emsp;&emsp;
-  <strong>Project 01</strong> &emsp;&emsp;&emsp;&emsp;
-  <a href="https://github.com/gigalasr/game-of-gpu">Next ›</a>
-</div>
-
-&emsp;&emsp;
-
-## 👋 Intro
+## Intro
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white) ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) 
 
 [![Build and Test](https://github.com/gigalasr/game-of-life/actions/workflows/rust.yml/badge.svg)](https://github.com/gigalasr/game-of-life/actions/workflows/rust.yml)
@@ -29,7 +19,7 @@ The pixels crate was especially helpful, as it provides a simple frame buffer th
 I sometimes took a slightly less performant approach on purpose to explore and experiment with different language features. 
 The trail effect was inspired by the Conway's Game of Life example from the pixels crate’s GitHub repository.
 
-## 📖 Resources
+## Resources
 The following resources helped me to implement this project:
 
 - https://docs.rs/pixels/latest/pixels/
@@ -38,7 +28,7 @@ The following resources helped me to implement this project:
 - https://github.com/parasyte/pixels/issues/403
 - https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 
-## 🛠️ Usage
+## Usage
 There are a few flags you can set to change the size of the grid and the window:
 ```
 --width <number>  - Set the width of the grid
@@ -51,8 +41,3 @@ For exmaple, to launch the simulation on a 400x200 Grid with a window size of 80
 ```
 cargo run -- --width 400 --height 200 --scale 2
 ```
-
-## 🔮 Future Work 
-For my next project I plan on implementing Conway's Game of Life on the GPU using wgpu and wgsl.
-
-
